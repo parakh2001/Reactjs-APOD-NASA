@@ -5,12 +5,11 @@ import { useEffect, useState } from 'react';
 function App() {
   const [showModal,setShowModal] = useState(false);
   const [data,setData] = useState(null);
-  const [loading,setLoading] = useState(null);
   function handleToggleModal(){
     setShowModal(!showModal);
   }
   const NASA_API = import.meta.env.VITE_NASA_API_KEY;
-  // fetch data from api (we use useEffect)
+  // using useEffect to fetch data from api
   useEffect(()=>{
     async function fetchAPIData(){
       const url = 'https://api.nasa.gov/planetary/apod' + `?api_key=${NASA_API}`;
@@ -23,20 +22,21 @@ function App() {
         console.log(error.message);
       }
     }
-    // fetchAPIData();
+    fetchAPIData();
   },[]);
   return (
     <>
-    
-    {data ? (<Main/>):(
+    {data ? (<Main data = {data}/>):(
       <div className='loadingState'>
         <i className="fa-solid fa-gear"></i>
       </div>
     )}
     {showModal && (
-      <SideBar handleToggleModal = {handleToggleModal}/>
+      <SideBar data = {data} handleToggleModal = {handleToggleModal}/>
     )}
-    <Footer showModal = {showModal} handleToggleModal = {handleToggleModal}/>
+    {data && (
+      <Footer data = {data} showModal = {showModal} handleToggleModal = {handleToggleModal}/>
+    )}
     </>
   );
 }
