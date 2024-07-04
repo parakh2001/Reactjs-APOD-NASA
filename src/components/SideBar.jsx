@@ -1,5 +1,4 @@
 import React from 'react';
-
 export const SideBar = (props) => {
   const { handleToggleModal, data } = props;
   return (
